@@ -1,7 +1,8 @@
+using System.Linq;
 using DataAccessLayer.EF;
 using SharedLibrary.Models.Entities;
 
-namespace DataAccessLayer
+namespace DataAccessLayer.Repository
 {
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -19,5 +20,3 @@ namespace DataAccessLayer
         }
     }
 }
-
-    

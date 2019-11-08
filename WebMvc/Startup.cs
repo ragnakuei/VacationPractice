@@ -1,6 +1,8 @@
 using BusinessLogicLayer.Employee;
+using BusinessLogicLayer.Leave;
 using DataAccessLayer;
 using DataAccessLayer.EF;
+using DataAccessLayer.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +26,11 @@ namespace WebMvc
         {
             services.AddControllersWithViews();
 
-            services.AddScoped<IEmployeeBL, EmployeeBL>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            
+            services.AddScoped<ILeaveService, LeaveService>();
+            services.AddScoped<ILeaveRepository, LeaveRepository>();
 
             services.AddDbContext<VacationPracticeDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                                                                                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));

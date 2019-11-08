@@ -1,0 +1,104 @@
+﻿@using SharedLibrary.Enums
+@model SharedLibrary.Models.ViewModels.LeaveAddViewModel
+
+@{
+    ViewData["Title"] = "Add Employee";
+}
+
+@section Scripts {
+         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+         <script>
+            var searchEmployeeApiUrl = '@(Url.Action("SearchEmployee", "Leave"))';
+            var searchEmployeeResultTextDomObjectId = 'Employee';
+            var searchEmployeeResultValueDomObjectId = '@(nameof(Model.EmployeeId))';
+            var searchResult = [];
+            
+             $(document).ready(function () {
+                 $('#' + searchEmployeeResultTextDomObjectId).autocomplete({
+                     source: function (request, response) {
+                                          $.ajax({
+                                              url: searchEmployeeApiUrl,
+                                              type: 'post',
+                                              data: JSON.stringify(request.term),
+                                              dataType: 'json',
+                                              contentType: 'application/json',
+                                              success :  function(data)
+                                              {
+                                                  searchResult = data;
+                                                  
+                                                  response($.map(data, function (item)
+                                                                      {
+                                                                          return {
+                                                                              label : item.name,
+                                                                              value : item.id
+                                                                          };
+                                                                      }));
+                                              },
+                                              error: function () {
+                                                  response([]);
+                                              }
+                                          })
+                                      },
+                     delay: 1000,
+                     select: function (event, ui) {
+                         $('#' + searchEmployeeResultValueDomObjectId).val(ui.item.value);
+                         $('#' + searchEmployeeResultTextDomObjectId).val(ui.item.label);
+                         return false;
+                     }
+                 });
+             });
+         </script>
+}
+
+<form asp-controller="Leave" asp-action="PostAdd" method="post">
+    <div class="form-group">
+        <label for="Employee">Employee</label>
+        <input class="form-control"
+                       data-val="true"
+                       data-val-required="The Employee field is required."
+                       type="text"
+                       id="Employee" />
+        <input class="form-control"
+               type="hidden"
+               asp-for="EmployeeId" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Kind">Kind</label>
+        <select class="form-control"
+               data-val="true"
+               data-val-required="The Kind field is required."
+               asp-items="Html.GetEnumSelectList<VacationKind>()"
+               asp-for="Kind"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="LeaveStart">LeaveStart</label>
+        <input class="form-control"
+               data-val="true"
+               data-val-required="The LeaveStart field is required."
+               asp-for="LeaveStart">
+    </div>
+    <div class="form-group">
+        <label asp-for="LeaveEnd">LeaveEnd</label>
+        <input class="form-control"
+               data-val="true"
+               data-val-required="The LeaveEnd field is required."
+               asp-for="LeaveEnd">
+    </div>
+    <div class="form-group">
+        <label asp-for="LeaveTime">LeaveTime</label>
+        <input class="form-control"
+               data-val="true"
+               data-val-required="The LeaveTime field is required."
+               asp-for="LeaveTime">
+    </div>
+    <div class="form-group">
+        <label asp-for="Reason">Reason</label>
+        <input class="form-control"
+               data-val="true"
+               data-val-required="The Reason field is required."
+               asp-for="Reason">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

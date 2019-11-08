@@ -1,13 +1,15 @@
+using System.Linq;
 using DataAccessLayer;
+using DataAccessLayer.Repository;
 using SharedLibrary.Models.ViewModels;
 
 namespace BusinessLogicLayer.Employee
 {
-    public class EmployeeBL : IEmployeeBL
+    public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeeBL(IEmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository;
         }

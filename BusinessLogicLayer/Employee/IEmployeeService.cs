@@ -2,7 +2,7 @@ using SharedLibrary.Models.ViewModels;
 
 namespace BusinessLogicLayer.Employee
 {
-    public interface IEmployeeBL
+    public interface IEmployeeService
     {
         void Add(EmployeeAddViewModel employeeAddViewModel);
     }

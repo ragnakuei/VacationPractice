@@ -7,11 +7,11 @@ namespace WebMvc.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly IEmployeeBL _employeeBl;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(IEmployeeBL employeeBl)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _employeeBl = employeeBl;
+            _employeeService = employeeService;
         }
         
         public IActionResult Add()
@@ -25,9 +25,10 @@ namespace WebMvc.Controllers
         }
       
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult PostAdd(EmployeeAddViewModel employeeAddViewModel)
         {
-            _employeeBl.Add(employeeAddViewModel);
+            _employeeService.Add(employeeAddViewModel);
             return Ok();
         }
     }
